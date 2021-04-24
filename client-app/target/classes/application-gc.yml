@@ -12,9 +12,3 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.H2Dialect
       hibernate.temp.use_jdbc_metadata_defaults: false
-
-  profiles:
-    active: gc
-
-server:
-  port: 8091
