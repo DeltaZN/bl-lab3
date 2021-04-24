@@ -1,13 +1,8 @@
 package ru.itmo.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
+import ru.itmo.messages.LoanRequestStatus
 import javax.persistence.*
-
-enum class LoanRequestStatus {
-    NEW,
-    APPROVED,
-    REJECTED,
-}
 
 @Entity
 class LoanRequest(

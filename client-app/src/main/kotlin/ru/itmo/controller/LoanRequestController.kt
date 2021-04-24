@@ -2,10 +2,10 @@ package ru.itmo.controller
 
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import ru.itmo.messages.LoanRequestStatus
 import ru.itmo.repository.BorrowerRepository
 import ru.itmo.repository.LoanRequest
 import ru.itmo.repository.LoanRequestRepository
-import ru.itmo.repository.LoanRequestStatus
 import ru.itmo.service.UserService
 import javax.persistence.EntityNotFoundException
 
@@ -45,7 +45,7 @@ class LoanRequestController(
     )
 
     @GetMapping("/borrower/{id}")
-    @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED', 'MANAGER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED')")
     fun getBorrowerLoans(@PathVariable id: Long): List<LoanRequestData> {
         userService.checkBorrowerAuthority(id)
         val borrower = borrowerRepository.findById(id).orElseThrow {
@@ -56,7 +56,7 @@ class LoanRequestController(
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED', 'MANAGER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED')")
     fun getLoan(@PathVariable id: Long): LoanRequestData {
         val request = loanRequestRepository.findById(id).orElseThrow {
             EntityNotFoundException("Loan with id $id not found!")

@@ -18,6 +18,7 @@
     <modules>
         <module>client-app</module>
         <module>manager-app</module>
+        <module>messages</module>
     </modules>
 
     <properties>

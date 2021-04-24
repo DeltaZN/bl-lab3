@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bl3_client
+    url: jdbc:postgresql://localhost:5432/bl3_manager
     username: postgres
     password: 1234
     platform: postgres

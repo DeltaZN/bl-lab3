@@ -125,6 +125,12 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>ru.itmo</groupId>
+            <artifactId>messages</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

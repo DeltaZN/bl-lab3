@@ -1,14 +1,9 @@
 package ru.itmo.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
+import ru.itmo.messages.LoanStatus
 import java.time.LocalDateTime
 import javax.persistence.*
-
-enum class LoanStatus {
-    NORMAL,
-    EXPIRED,
-    CLOSED,
-}
 
 @Entity
 class Loan(
