@@ -49,7 +49,7 @@ data class JwtResponse(
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RequestMapping("/api")
 @RestController
-open class AuthController(
+class AuthController(
     private val borrowerRepository: BorrowerRepository,
     private val passportRepository: PassportRepository,
     private val userRepository: UserRepository,
@@ -134,6 +134,7 @@ open class AuthController(
         borrower.passportData = passportData
         userRepository.save(borrower.eUser)
         borrowerRepository.save(borrower)
+        // TODO send to manager-app
         return MessageIdResponse("Passport data submitted", passportData.id)
     }
 }

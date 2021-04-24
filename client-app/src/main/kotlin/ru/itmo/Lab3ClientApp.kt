@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @SpringBootApplication
 @PropertySource("classpath:kafka.properties", "classpath:security.properties")
 @EnableScheduling
-open class Lab3ClientApp : SpringBootServletInitializer() {
+class Lab3ClientApp : SpringBootServletInitializer() {
     override fun configure(builder: SpringApplicationBuilder): SpringApplicationBuilder {
         return builder.sources(Lab3ClientApp::class.java)
     }

@@ -14,7 +14,7 @@ class UserService(
 ) {
     private fun getCurrentUserId(): Long = (SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl).id
 
-    private fun getUserFromAuth(): EUser = userRepository.findById(getCurrentUserId())
+    fun getUserFromAuth(): EUser = userRepository.findById(getCurrentUserId())
         .orElseThrow { UsernameNotFoundException("User not found - ${getCurrentUserId()}") }
 
     fun checkBorrowerAuthority(ownerId: Long) {
