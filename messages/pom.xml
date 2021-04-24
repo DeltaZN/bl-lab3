@@ -3,7 +3,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.itmo</groupId>
+    <parent>
+        <artifactId>bl-lab3</artifactId>
+        <groupId>ru.itmo</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>messages</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
