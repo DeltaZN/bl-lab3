@@ -6,6 +6,7 @@ import ru.itmo.messages.LoanRequestStatus
 import ru.itmo.repository.BorrowerRepository
 import ru.itmo.repository.LoanRequest
 import ru.itmo.repository.LoanRequestRepository
+import ru.itmo.service.KafkaLoanService
 import ru.itmo.service.UserService
 import javax.persistence.EntityNotFoundException
 
@@ -27,6 +28,7 @@ class LoanRequestController(
     private val loanRequestRepository: LoanRequestRepository,
     private val borrowerRepository: BorrowerRepository,
     private val userService: UserService,
+    private val kafkaLoanService: KafkaLoanService,
 ) {
 
     companion object {
@@ -71,7 +73,9 @@ class LoanRequestController(
         val borrower = userService.getUserFromAuth().borrower!!
         val loan = LoanRequest(0, payload.sum, LoanRequestStatus.NEW, payload.percent, payload.loanDays, borrower)
         loanRequestRepository.save(loan)
-        // TODO send to manager-app request
+
+        kafkaLoanService.sendLoanRequest(loan, borrower.id)
+
         return LoanResponse("Wait for loan approval", loan.id)
     }
 }

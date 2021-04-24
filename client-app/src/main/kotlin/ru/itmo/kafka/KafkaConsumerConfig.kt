@@ -13,7 +13,6 @@ import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.support.converter.BatchMessagingMessageConverter
 import org.springframework.kafka.support.converter.StringJsonMessageConverter
-import ru.itmo.dto.AbstractDto
 
 @Configuration
 class KafkaConsumerConfig {
@@ -28,11 +27,11 @@ class KafkaConsumerConfig {
 
     @Bean
     fun batchFactory(
-        consumerFactory: ConsumerFactory<Long, AbstractDto>,
+        consumerFactory: ConsumerFactory<Long, Any>,
         converter: StringJsonMessageConverter
     ): KafkaListenerContainerFactory<*> {
-        val factory: ConcurrentKafkaListenerContainerFactory<Long, AbstractDto> =
-            ConcurrentKafkaListenerContainerFactory<Long, AbstractDto>()
+        val factory: ConcurrentKafkaListenerContainerFactory<Long, Any> =
+            ConcurrentKafkaListenerContainerFactory<Long, Any>()
         factory.consumerFactory = consumerFactory
         factory.isBatchListener = true
         factory.setMessageConverter(BatchMessagingMessageConverter(converter))
@@ -40,9 +39,9 @@ class KafkaConsumerConfig {
     }
 
     @Bean
-    fun singleFactory(consumerFactory: ConsumerFactory<Long, AbstractDto>): KafkaListenerContainerFactory<*> {
-        val factory: ConcurrentKafkaListenerContainerFactory<Long, AbstractDto> =
-            ConcurrentKafkaListenerContainerFactory<Long, AbstractDto>()
+    fun singleFactory(consumerFactory: ConsumerFactory<Long, Any>): KafkaListenerContainerFactory<*> {
+        val factory: ConcurrentKafkaListenerContainerFactory<Long, Any> =
+            ConcurrentKafkaListenerContainerFactory<Long, Any>()
         factory.consumerFactory = consumerFactory
         factory.isBatchListener = false
         factory.setMessageConverter(StringJsonMessageConverter())
@@ -50,7 +49,7 @@ class KafkaConsumerConfig {
     }
 
     @Bean
-    fun consumerFactory(consumerConfigs: Map<String, Any>): ConsumerFactory<Long, AbstractDto> =
+    fun consumerFactory(consumerConfigs: Map<String, Any>): ConsumerFactory<Long, Any> =
         DefaultKafkaConsumerFactory(consumerConfigs)
 
     @Bean

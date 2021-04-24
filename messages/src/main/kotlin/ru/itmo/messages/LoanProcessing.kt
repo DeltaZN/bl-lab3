@@ -16,7 +16,7 @@ enum class LoanStatus {
 
 const val KAFKA_LOAN_REQUEST_TOPIC = "server.loan_request"
 // client-app -> manager-app
-data class LoanRequest (
+data class LoanRequestDto (
     val id: Long,
     val sum: Double,
     val percent: Double,
@@ -26,14 +26,14 @@ data class LoanRequest (
 
 const val KAFKA_LOAN_PROCESSED_TOPIC = "server.loan_processed"
 // manager-app -> client-app
-data class LoanProcessed (
-    val loanId: Long,
-    val loanStatus: LoanRequestStatus,
-    val newLoan: Loan?,
+data class LoanProcessedDto (
+    val loanRequestId: Long,
+    val loanRequestStatus: LoanRequestStatus,
+    val newLoanDto: LoanDto?,
 )
 
 // auxiliary class
-data class Loan(
+data class LoanDto(
     val id: Long,
     val sum: Double,
     val percent: Double,

@@ -10,7 +10,7 @@ enum class PaymentStatus {
 
 const val KAFKA_PAYMENT_TOPIC = "server.payment"
 // client-app -> manager-app
-data class Payment(
+data class PaymentDto(
     val paymentId: Long,
     val loanId: Long,
     val sum: Double,
@@ -19,7 +19,7 @@ data class Payment(
 
 const val KAFKA_PAYMENT_RESULT_TOPIC = "server.payment_result"
 // manager-app -> client-app
-data class PaymentProcessingResult(
+data class PaymentResultDto(
     val paymentId: Long,
     val loanId: Long,
     val status: PaymentStatus,
