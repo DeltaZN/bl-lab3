@@ -8,6 +8,7 @@ enum class PaymentStatus {
     REFUSED,
 }
 
+const val KAFKA_PAYMENT_TOPIC = "server.payment"
 // client-app -> manager-app
 data class Payment(
     val paymentId: Long,
@@ -16,6 +17,7 @@ data class Payment(
     val paymentDate: LocalDateTime,
 )
 
+const val KAFKA_PAYMENT_RESULT_TOPIC = "server.payment_result"
 // manager-app -> client-app
 data class PaymentProcessingResult(
     val paymentId: Long,

@@ -14,6 +14,7 @@ enum class LoanStatus {
     CLOSED,
 }
 
+const val KAFKA_LOAN_REQUEST_TOPIC = "server.loan_request"
 // client-app -> manager-app
 data class LoanRequest (
     val id: Long,
@@ -23,6 +24,7 @@ data class LoanRequest (
     val borrowerId: Long,
 )
 
+const val KAFKA_LOAN_PROCESSED_TOPIC = "server.loan_processed"
 // manager-app -> client-app
 data class LoanProcessed (
     val loanId: Long,

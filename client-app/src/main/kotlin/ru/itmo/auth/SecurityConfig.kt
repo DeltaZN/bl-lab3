@@ -18,14 +18,14 @@ import ru.itmo.service.UserDetailsServiceImpl
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-open class SecurityConfig(
+class SecurityConfig(
     private val userDetailsService: UserDetailsServiceImpl,
     private val jwtUtils: JwtUtils,
     private val unauthorizedHandler: AuthEntryPointJwt,
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
-    open fun authenticationJwtTokenFilter(): AuthTokenFilter? {
+    fun authenticationJwtTokenFilter(): AuthTokenFilter? {
         return AuthTokenFilter(jwtUtils, userDetailsService)
     }
 

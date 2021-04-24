@@ -17,10 +17,8 @@ class Loan(
     var loanStatus: LoanStatus = LoanStatus.NORMAL,
     @ManyToOne
     var borrower: Borrower = Borrower(),
-    var loanReqId: Long = 0
 )
 
 interface LoanRepository : JpaRepository<Loan, Long> {
-    fun findLoansByLoanStatus(status: LoanStatus): List<Loan>
     fun findLoansByBorrower(borrower: Borrower): List<Loan>
 }

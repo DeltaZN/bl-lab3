@@ -1,10 +1,13 @@
 package ru.itmo.controller
 
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.transaction.support.TransactionTemplate
 import org.springframework.web.bind.annotation.*
+import ru.itmo.messages.KAFKA_PAYMENT_TOPIC
 import ru.itmo.messages.PaymentStatus
-import ru.itmo.repository.*
+import ru.itmo.repository.LoanRepository
+import ru.itmo.repository.Payment
+import ru.itmo.repository.PaymentRepository
 import ru.itmo.service.UserService
 import javax.persistence.EntityNotFoundException
 
@@ -20,6 +23,7 @@ class LoanBorrowerController(
     private val loanRepository: LoanRepository,
     private val userService: UserService,
     private val paymentRepository: PaymentRepository,
+//    private val kafkaPaymentTemplate: KafkaTemplate<Long, ru.itmo.messages.Payment>,
 ) {
     @PostMapping("pay")
     @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED')")
@@ -31,7 +35,14 @@ class LoanBorrowerController(
         userService.checkBorrowerAuthority(loan.borrower.id)
         val payment = Payment(0, payload.sum, PaymentStatus.PROCESSING, userService.getUserFromAuth().borrower!!, loan)
         paymentRepository.save(payment)
-        // TODO send to manager-app
+
+//        kafkaPaymentTemplate.send(KAFKA_PAYMENT_TOPIC, ru.itmo.messages.Payment(
+//            payment.id,
+//            loan.id,
+//            payment.sum,
+//            payment.paymentDate,
+//        ))
+
         return MessageIdResponse("Payment accepted, wait for processing...")
     }
 }

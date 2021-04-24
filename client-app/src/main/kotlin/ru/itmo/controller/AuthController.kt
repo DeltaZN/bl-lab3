@@ -1,6 +1,7 @@
 package ru.itmo.controller
 
 import org.springframework.http.ResponseEntity
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*
 import ru.itmo.auth.ERole
 import ru.itmo.auth.UserDetailsImpl
 import ru.itmo.auth.JwtUtils
+import ru.itmo.messages.BorrowerData
+import ru.itmo.messages.KAFKA_BORROWER_TOPIC
 import ru.itmo.repository.*
 import ru.itmo.service.UserService
 import java.util.stream.Collectors
@@ -57,7 +60,8 @@ class AuthController(
     private val authenticationManager: AuthenticationManager,
     private val jwtUtils: JwtUtils,
     private val encoder: PasswordEncoder,
-    private val userService: UserService
+    private val userService: UserService,
+    private val kafkaBorrowerDataTemplate: KafkaTemplate<Long, ru.itmo.messages.BorrowerData>,
 ) {
 
     companion object {
@@ -134,7 +138,14 @@ class AuthController(
         borrower.passportData = passportData
         userRepository.save(borrower.eUser)
         borrowerRepository.save(borrower)
-        // TODO send to manager-app
+
+        kafkaBorrowerDataTemplate.send(KAFKA_BORROWER_TOPIC, BorrowerData(
+            borrower.id,
+            borrower.firstName,
+            borrower.lastName,
+            passportData.passportSeriesAndNumber,
+        ))
+
         return MessageIdResponse("Passport data submitted", passportData.id)
     }
 }
