@@ -32,7 +32,8 @@ data class LoanProcessedDto (
     val newLoanDto: LoanDto?,
 )
 
-// auxiliary class
+const val KAFKA_LOAN_TOPIC = "server.loan"
+// manager-app -> client-app
 data class LoanDto(
     val id: Long,
     val sum: Double,

@@ -56,4 +56,19 @@ class KafkaLoanService(
             loanRepository.save(loan)
         }
     }
+
+    @KafkaListener(id = "Loan", topics = [KAFKA_LOAN_TOPIC], containerFactory = "singleFactory")
+    fun consumeLoan(dto: LoanDto) {
+        log.info("Kafka loan $dto")
+
+        val loan = loanRepository.findById(dto.id).orElseThrow {
+            EntityNotFoundException("Loan not found")
+        }
+
+        loan.loanStatus = dto.loanStatus
+        loan.sum = dto.sum
+        loan.percent = dto.percent
+
+        loanRepository.save(loan)
+    }
 }
