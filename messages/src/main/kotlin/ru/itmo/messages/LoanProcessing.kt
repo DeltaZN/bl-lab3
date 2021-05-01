@@ -24,9 +24,9 @@ data class LoanRequestDto (
     val borrowerId: Long,
 )
 
-const val KAFKA_LOAN_PROCESSED_TOPIC = "server.loan_processed"
+const val KAFKA_LOAN_REQUEST_ANSWER_TOPIC = "server.loan_request_answer"
 // manager-app -> client-app
-data class LoanProcessedDto (
+data class LoanRequestAnswerDto (
     val loanRequestId: Long,
     val loanRequestStatus: LoanRequestStatus,
     val newLoanDto: LoanDto?,

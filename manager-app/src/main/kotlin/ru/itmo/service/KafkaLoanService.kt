@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException
 
 @Service
 class KafkaLoanService(
-    private val kafkaLoanProcessedDtoTemplate: KafkaTemplate<Long, LoanProcessedDto>,
+    private val kafkaLoanRequestAnswerDtoTemplate: KafkaTemplate<Long, LoanRequestAnswerDto>,
     private val kafkaLoanDtoTemplate: KafkaTemplate<Long, LoanDto>,
     private val loanRequestRepository: LoanRequestRepository,
     private val borrowerRepository: BorrowerRepository,
@@ -31,8 +31,8 @@ class KafkaLoanService(
                 loan.loanStatus,
                 loan.borrower.id
             )
-        kafkaLoanProcessedDtoTemplate.send(
-            KAFKA_LOAN_PROCESSED_TOPIC, LoanProcessedDto(
+        kafkaLoanRequestAnswerDtoTemplate.send(
+            KAFKA_LOAN_REQUEST_ANSWER_TOPIC, LoanRequestAnswerDto(
                 loanReq.id,
                 loanReq.requestStatus,
                 loanDto

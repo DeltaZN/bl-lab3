@@ -11,7 +11,7 @@ import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.converter.StringJsonMessageConverter
 import org.springframework.kafka.support.serializer.JsonSerializer
 import ru.itmo.messages.LoanDto
-import ru.itmo.messages.LoanProcessedDto
+import ru.itmo.messages.LoanRequestAnswerDto
 import ru.itmo.messages.PaymentResultDto
 
 @Configuration
@@ -45,13 +45,13 @@ class KafkaProducerConfig {
     }
 
     @Bean
-    fun producerLoanRequestFactory(): ProducerFactory<Long, LoanProcessedDto> {
+    fun producerLoanRequestFactory(): ProducerFactory<Long, LoanRequestAnswerDto> {
         return DefaultKafkaProducerFactory(producerConfigs())
     }
 
     @Bean
-    fun kafkaLoanProcessedTemplate(): KafkaTemplate<Long, LoanProcessedDto> {
-        val template: KafkaTemplate<Long, LoanProcessedDto> = KafkaTemplate(producerLoanRequestFactory())
+    fun kafkaLoanProcessedTemplate(): KafkaTemplate<Long, LoanRequestAnswerDto> {
+        val template: KafkaTemplate<Long, LoanRequestAnswerDto> = KafkaTemplate(producerLoanRequestFactory())
         template.setMessageConverter(StringJsonMessageConverter())
         return template
     }
