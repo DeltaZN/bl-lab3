@@ -1,5 +1,7 @@
 package ru.itmo.controller
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.security.access.prepost.PreAuthorize
@@ -15,6 +17,7 @@ import ru.itmo.auth.JwtUtils
 import ru.itmo.messages.BorrowerData
 import ru.itmo.messages.KAFKA_BORROWER_TOPIC
 import ru.itmo.repository.*
+import ru.itmo.service.KafkaPaymentService
 import ru.itmo.service.UserService
 import java.util.stream.Collectors
 import javax.persistence.EntityNotFoundException
@@ -63,6 +66,8 @@ class AuthController(
     private val userService: UserService,
     private val kafkaBorrowerDataTemplate: KafkaTemplate<Long, ru.itmo.messages.BorrowerData>,
 ) {
+
+    private val log: Logger = LoggerFactory.getLogger(AuthController::class.java)
 
     companion object {
         fun mapBorrowerData(borrower: Borrower): BorrowerData =
@@ -139,6 +144,7 @@ class AuthController(
         userRepository.save(borrower.eUser)
         borrowerRepository.save(borrower)
 
+        log.info("Sending borrower data")
         kafkaBorrowerDataTemplate.send(KAFKA_BORROWER_TOPIC, BorrowerData(
             borrower.id,
             borrower.firstName,
