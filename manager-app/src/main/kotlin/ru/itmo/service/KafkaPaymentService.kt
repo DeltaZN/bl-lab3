@@ -6,7 +6,10 @@ import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 import ru.itmo.messages.*
-import ru.itmo.repository.*
+import ru.itmo.repository.Loan
+import ru.itmo.repository.LoanRepository
+import ru.itmo.repository.Payment
+import ru.itmo.repository.PaymentRepository
 import javax.persistence.EntityNotFoundException
 
 @Service
@@ -35,12 +38,12 @@ class KafkaPaymentService(
             EntityNotFoundException("Loan not found")
         }
 
-        val payment = Payment(dto.paymentId,dto.sum,PaymentStatus.PROCESSING,loan.borrower,loan,dto.paymentDate)
+        val payment = Payment(dto.paymentId, dto.sum, PaymentStatus.PROCESSING, loan.borrower, loan, dto.paymentDate)
 
 
         if (!moneyService.checkMoneyTransaction(loan.borrower))
             payment.status = PaymentStatus.REFUSED
-            else payment.status = PaymentStatus.ACCEPTED
+        else payment.status = PaymentStatus.ACCEPTED
 
         paymentRepository.save(payment)
 

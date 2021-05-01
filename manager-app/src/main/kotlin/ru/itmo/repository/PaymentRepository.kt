@@ -10,7 +10,6 @@ interface PaymentRepository : JpaRepository<Payment, Long>
 @Entity
 class Payment(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
     var sum: Double = 0.0,
     var status: PaymentStatus = PaymentStatus.PROCESSING,

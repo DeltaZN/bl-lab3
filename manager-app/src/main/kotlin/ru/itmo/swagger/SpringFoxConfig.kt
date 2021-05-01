@@ -18,10 +18,11 @@ import java.util.*
 
 @Configuration
 @EnableSwagger2
-open class SpringFoxConfig : WebMvcConfigurationSupport() {
+class SpringFoxConfig : WebMvcConfigurationSupport() {
     private val API_VERSION = "0.0.3"
+
     @Bean
-    open fun api(): Docket {
+    fun api(): Docket {
         return Docket(DocumentationType.SWAGGER_2)
             .apiInfo(apiInfo())
             .securityContexts(listOf(securityContext()))
@@ -59,13 +60,14 @@ open class SpringFoxConfig : WebMvcConfigurationSupport() {
 
 
     private fun apiInfo() = ApiInfo(
-            "Микрозаймы",
-            "Микрозаймы для всех",
-            API_VERSION,
-            "Terms of service",
-            Contact("", "", ""),
-            "License of API",
-            "API license URL",
-            Collections.emptyList())
+        "Микрозаймы",
+        "Микрозаймы для всех",
+        API_VERSION,
+        "Terms of service",
+        Contact("", "", ""),
+        "License of API",
+        "API license URL",
+        Collections.emptyList()
+    )
 
 }

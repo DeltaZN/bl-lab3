@@ -9,8 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 import ru.itmo.auth.ERole
-import ru.itmo.auth.UserDetailsImpl
 import ru.itmo.auth.JwtUtils
+import ru.itmo.auth.UserDetailsImpl
 import ru.itmo.messages.BorrowerData
 import ru.itmo.messages.ManagerData
 import ru.itmo.repository.*
@@ -58,9 +58,10 @@ class AuthController(
 
     companion object {
         fun mapBorrowerData(borrower: Borrower): BorrowerData =
-                BorrowerData(borrower.id, borrower.firstName, borrower.lastName, borrower.passportData)
+            BorrowerData(borrower.id, borrower.firstName, borrower.lastName, borrower.passportData)
+
         fun mapManagerData(manager: Manager): ManagerData =
-                ManagerData(manager.id, manager.firstName, manager.lastName)
+            ManagerData(manager.id, manager.firstName, manager.lastName)
     }
 
     @PostMapping("/signin")
@@ -92,8 +93,8 @@ class AuthController(
             throw IllegalStateException("User already registered")
         val manager = Manager(0, payload.firstName, payload.lastName)
         val user = EUser(
-                0, payload.login, encoder.encode(payload.password), manager,
-                setOf(roleRepository.findRoleByName(ERole.ROLE_MANAGER).get())
+            0, payload.login, encoder.encode(payload.password), manager,
+            setOf(roleRepository.findRoleByName(ERole.ROLE_MANAGER).get())
         )
         manager.EUser = user
         userRepository.save(user)
@@ -108,8 +109,8 @@ class AuthController(
             throw IllegalStateException("User already registered")
         val manager = Manager(0, payload.firstName, payload.lastName)
         val user = EUser(
-                0, payload.login, encoder.encode(payload.password), manager,
-                setOf(roleRepository.findRoleByName(ERole.ROLE_ADMIN).get())
+            0, payload.login, encoder.encode(payload.password), manager,
+            setOf(roleRepository.findRoleByName(ERole.ROLE_ADMIN).get())
         )
         manager.EUser = user
         userRepository.save(user)

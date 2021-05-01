@@ -55,6 +55,7 @@ class KafkaProducerConfig {
         template.setMessageConverter(StringJsonMessageConverter())
         return template
     }
+
     @Bean
     fun producerLoanFactory(): ProducerFactory<Long, LoanDto> {
         return DefaultKafkaProducerFactory(producerConfigs())

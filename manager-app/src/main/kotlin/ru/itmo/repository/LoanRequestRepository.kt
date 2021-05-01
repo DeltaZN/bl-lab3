@@ -7,7 +7,6 @@ import javax.persistence.*
 @Entity
 class LoanRequest(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
     var sum: Double = 0.0,
     var requestStatus: LoanRequestStatus = LoanRequestStatus.NEW,

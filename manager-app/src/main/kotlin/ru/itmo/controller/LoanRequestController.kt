@@ -9,7 +9,6 @@ import ru.itmo.repository.LoanRequestRepository
 import javax.persistence.EntityNotFoundException
 
 
-
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RequestMapping("/api/loan")
 @RestController
@@ -20,8 +19,10 @@ class LoanRequestController(
 
     companion object {
         fun mapLoanRequestData(loan: LoanRequest): LoanRequestData =
-            LoanRequestData(loan.id, loan.sum, loan.requestStatus, loan.percent, loan.loanDays,
-                AuthController.mapBorrowerData(loan.borrower))
+            LoanRequestData(
+                loan.id, loan.sum, loan.requestStatus, loan.percent, loan.loanDays,
+                AuthController.mapBorrowerData(loan.borrower)
+            )
     }
 
     data class LoanRequestData(

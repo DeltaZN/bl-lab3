@@ -12,7 +12,8 @@ import ru.itmo.repository.UserRepository
 class UserService(
     private val userRepository: UserRepository
 ) {
-    private fun getCurrentUserId(): Long = (SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl).id
+    private fun getCurrentUserId(): Long =
+        (SecurityContextHolder.getContext().authentication.principal as UserDetailsImpl).id
 
     fun getUserFromAuth(): EUser = userRepository.findById(getCurrentUserId())
         .orElseThrow { UsernameNotFoundException("User not found - ${getCurrentUserId()}") }
