@@ -40,7 +40,6 @@ data class MessageIdResponse(
 )
 
 data class AddPassportDataRequest(
-    val borrowerId: Long,
     val passportSeriesNumber: String
 )
 
@@ -132,9 +131,7 @@ class AuthController(
     @PostMapping("/borrower/passport")
     @PreAuthorize("hasAnyRole('BORROWER')")
     fun addPassportData(@RequestBody payload: AddPassportDataRequest): MessageIdResponse {
-        val borrower = borrowerRepository.findById(payload.borrowerId).orElseThrow {
-            EntityNotFoundException("Borrower with id ${payload.borrowerId} not found!")
-        }
+        val borrower = userService.getUserFromAuth().borrower!!
         val passportData = borrower.passportData
         passportData.passportSeriesAndNumber = payload.passportSeriesNumber
         passportRepository.save(passportData)
