@@ -30,8 +30,8 @@ class KafkaLoanService(
         )
     }
 
-    @KafkaListener(id = "LoanProcessed", topics = [KAFKA_LOAN_REQUEST_ANSWER_TOPIC], containerFactory = "singleFactory")
-    fun consumeProcessedLoan(dto: LoanRequestAnswerDto) {
+    @KafkaListener(id = "LoanRequestResult", topics = [KAFKA_LOAN_REQUEST_ANSWER_TOPIC], containerFactory = "singleFactory")
+    fun consumeLoanRequestResult(dto: LoanRequestAnswerDto) {
         log.info("Kafka loan $dto")
 
         val loanRequest = loanRequestRepository.findById(dto.loanRequestId).orElseThrow {
