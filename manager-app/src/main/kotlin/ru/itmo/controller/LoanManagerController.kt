@@ -1,5 +1,6 @@
 package ru.itmo.controller
 
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.transaction.support.TransactionTemplate
 import org.springframework.web.bind.annotation.*
 import ru.itmo.messages.BorrowerData
@@ -56,6 +57,7 @@ class LoanManagerController(
     }
 
     @PostMapping("/approve")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     fun approveLoan(@RequestBody payload: ManageLoanRequest): MessageIdResponse {
         val manager = userService.getUserFromAuth().manager!!
         val loanRequest = loanRequestRepository.findById(payload.loanReqId).orElseThrow {
@@ -88,6 +90,7 @@ class LoanManagerController(
     }
 
     @PostMapping("/reject")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     fun rejectLoan(@RequestBody payload: ManageLoanRequest): MessageIdResponse {
         val loanRequest = loanRequestRepository.findById(payload.loanReqId).orElseThrow {
             EntityNotFoundException("Loan request with id ${payload.loanReqId} not found!")
@@ -107,6 +110,7 @@ class LoanManagerController(
     }
 
     @GetMapping("/borrower/{id}")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     fun getBorrowerLoans(@PathVariable id: Long): List<LoanData> {
         val borrower = borrowerRepository.findById(id).orElseThrow {
             EntityNotFoundException("Borrower with id $id not found!")
@@ -116,6 +120,7 @@ class LoanManagerController(
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     fun getLoan(@PathVariable id: Long): LoanData {
         val loan = loanRepository.findById(id).orElseThrow {
             EntityNotFoundException("Loan with id $id not found!")

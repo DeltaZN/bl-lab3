@@ -1,5 +1,6 @@
 package ru.itmo.controller
 
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ru.itmo.messages.BorrowerData
 import ru.itmo.messages.LoanRequestStatus
@@ -35,6 +36,7 @@ class LoanRequestController(
     )
 
     @GetMapping("/borrower/{id}")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     fun getBorrowerLoans(@PathVariable id: Long): List<LoanRequestData> {
         val borrower = borrowerRepository.findById(id).orElseThrow {
             EntityNotFoundException("Borrower with id $id not found!")
@@ -44,6 +46,7 @@ class LoanRequestController(
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     fun getLoan(@PathVariable id: Long): LoanRequestData {
         val request = loanRequestRepository.findById(id).orElseThrow {
             EntityNotFoundException("Loan req with id $id not found!")
