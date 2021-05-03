@@ -5,7 +5,9 @@ import ru.itmo.messages.PaymentStatus
 import java.time.LocalDateTime
 import javax.persistence.*
 
-interface PaymentRepository : JpaRepository<Payment, Long>
+interface PaymentRepository : JpaRepository<Payment, Long> {
+    fun findPaymentsByBorrower(borrower: Borrower): List<Payment>
+}
 
 @Entity
 class Payment(

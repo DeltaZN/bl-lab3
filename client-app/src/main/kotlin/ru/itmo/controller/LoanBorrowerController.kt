@@ -8,6 +8,7 @@ import ru.itmo.repository.Payment
 import ru.itmo.repository.PaymentRepository
 import ru.itmo.service.KafkaPaymentService
 import ru.itmo.service.UserService
+import java.time.LocalDateTime
 import javax.persistence.EntityNotFoundException
 
 data class ProcessPaymentRequest(
@@ -39,4 +40,17 @@ class LoanBorrowerController(
 
         return MessageIdResponse("Payment accepted, wait for processing...")
     }
+
+    data class PaymentDto(
+        var id: Long = 0,
+        var sum: Double = 0.0,
+        var status: PaymentStatus = PaymentStatus.PROCESSING,
+        var loanId: Long = 0,
+        var paymentDate: LocalDateTime = LocalDateTime.now(),
+    )
+
+    @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED')")
+    fun getPayments(): List<PaymentDto> = paymentRepository
+        .findPaymentsByBorrower(userService.getUserFromAuth().borrower!!)
+        .map { p -> PaymentDto(p.id, p.sum, p.status, p.loan.id, p.paymentDate) }
 }
