@@ -49,6 +49,7 @@ class LoanBorrowerController(
         var paymentDate: LocalDateTime = LocalDateTime.now(),
     )
 
+    @GetMapping("payments")
     @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED')")
     fun getPayments(): List<PaymentDto> = paymentRepository
         .findPaymentsByBorrower(userService.getUserFromAuth().borrower!!)
