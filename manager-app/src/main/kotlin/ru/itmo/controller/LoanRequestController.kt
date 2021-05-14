@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException
 
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
-@RequestMapping("/api/loan")
+@RequestMapping("/api/loanreq")
 @RestController
 class LoanRequestController(
     private val loanRequestRepository: LoanRequestRepository,

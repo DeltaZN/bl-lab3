@@ -22,7 +22,7 @@ data class ManageLoanRequest(
 class ProcessPaymentException(msg: String) : RuntimeException(msg)
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
-@RequestMapping("/api/manage/loan/")
+@RequestMapping("/api/loan/")
 @RestController
 class LoanManagerController(
     private val loanRequestRepository: LoanRequestRepository,

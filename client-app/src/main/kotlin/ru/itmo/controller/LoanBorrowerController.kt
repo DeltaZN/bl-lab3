@@ -57,9 +57,11 @@ class LoanBorrowerController(
 
     @GetMapping("payments")
     @PreAuthorize("hasAnyRole('BORROWER_CONFIRMED')")
-    fun getPayments(): List<PaymentDto> = paymentRepository
-        .findPaymentsByBorrower(userService.getUserFromAuth().borrower!!)
-        .map { p -> PaymentDto(p.id, p.sum, p.status, p.loan.id, p.paymentDate) }
+    fun getPayments(): List<PaymentDto> {
+      return  paymentRepository
+                .findPaymentsByBorrower(userService.getUserFromAuth().borrower!!)
+                .map { p -> PaymentDto(p.id, p.sum, p.status, p.loan.id, p.paymentDate) }
+    }
 
     data class LoanData(
             val id: Long,
