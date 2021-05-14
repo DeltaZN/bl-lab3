@@ -107,15 +107,15 @@ class AuthController(
     fun registerAdmin(@RequestBody payload: RegisterUserRequest): MessageIdResponse {
         if (userRepository.findByLogin(payload.login).isPresent)
             throw IllegalStateException("User already registered")
-        val manager = Manager(0, payload.firstName, payload.lastName)
+        var manager = Manager(0, payload.firstName, payload.lastName)
         val user = EUser(
             0, payload.login, encoder.encode(payload.password), manager,
             setOf(roleRepository.findRoleByName(ERole.ROLE_ADMIN).get())
         )
         manager.EUser = user
         userRepository.save(user)
-        managerRepository.save(manager)
-        return MessageIdResponse("Successfully registered admin", user.id)
+        manager = managerRepository.save(manager)
+        return MessageIdResponse("Successfully registered admin", manager.id)
     }
 
     @GetMapping("/manager/{id}")
